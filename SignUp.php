@@ -16,7 +16,7 @@ if (isset($_POST['multisave'])) {
     $city = $_POST['city'];
     $province = $_POST['province'];
    
-    if ($password == $c_password) {
+    if ($password == $cpass) {
         // Passwords match, proceed with signup
         $user_id = $con->signupUser($username, $password, $firstName, $lastName, $birthday, $sex); // Insert into users table and get user_id
         if ($user_id) {
@@ -71,12 +71,12 @@ if (isset($_POST['multisave'])) {
       <div class="card-body">
         <div class="form-row">
           <div class="form-group col-md-6 col-sm-12">
-            <label for="firstName">First Name:</label>
-            <input type="text" class="form-control" name="firstName" placeholder="Enter first name">
+            <label for="FirstName">First Name:</label>
+            <input type="text" class="form-control" name="FirstName" placeholder="Enter first name">
           </div>
           <div class="form-group col-md-6 col-sm-12">
-            <label for="lastName">Last Name:</label>
-            <input type="text" class="form-control" name="lastName" placeholder="Enter last name">
+            <label for="LastName">Last Name:</label>
+            <input type="text" class="form-control" name="LastName" placeholder="Enter last name">
           </div>
         </div>
         <div class="form-row">

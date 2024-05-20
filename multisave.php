@@ -1,27 +1,28 @@
 <?php
-
+ 
 require_once('classes/database.php');
-
+ 
 $con = new database();
 if (isset($_POST['multisave'])) {
-    $firstname = $_POST['Firstname'];
-    $lastname = $_POST['Lastname'];
+    $firstname = $_POST['firstname'];
+    $lastname = $_POST['lastname'];
     $birthday = $_POST['birthday'];
     $sex = $_POST['sex'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $Username = $_POST['Username'];
+    $password = $_POST['Pass_word'];
+    $confirm = $_POST['Pass_word'];
     $street = $_POST['street'];
     $barangay = $_POST['barangay'];
     $city = $_POST['city'];
     $province = $_POST['province'];
     $confirm = $_POST['cpass'];
-    
+ 
     if ($password == $confirm) {
         // Passwords match, proceed with signup
-        $user_id = $con->signupUser($username, $password, $firstname, $lastname, $birthday, $sex); // Insert into users table and get user_id
+        $user_id = $con->signupUser($Username, $password, $firstname, $lastname, $birthday, $sex); // Insert into users table and get user_id
         if ($user_id) {
             // Signup successful, insert address into users_address table
-            if ($con->insertAddress($user_id, $city, $province, $street, $barangay)) {
+            if ($con->insertAddress($user_id, $street, $barangay, $city, $province)) {
                 // Address insertion successful, redirect to login page
                 header('location:login.php');
                 exit();
@@ -37,10 +38,9 @@ if (isset($_POST['multisave'])) {
         // Passwords don't match, display error message
         $error = "Passwords did not match. Please try again.";
     }
-  }
-
+}
 ?>
-
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,7 +51,7 @@ if (isset($_POST['multisave'])) {
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
+ 
   <style>
     .custom-container{
         width: 800px;
@@ -60,12 +60,13 @@ if (isset($_POST['multisave'])) {
     font-family: 'Roboto', sans-serif;
     }
   </style>
-
+ 
 </head>
 <body>
-
+ 
 <div class="container custom-container rounded-3 shadow my-5 p-3 px-5">
   <h3 class="text-center mt-4"> Registration Form</h3>
+ 
   <form method="post">
     <!-- Personal Information -->
     <div class="card mt-4">
@@ -73,12 +74,12 @@ if (isset($_POST['multisave'])) {
       <div class="card-body">
         <div class="form-row">
           <div class="form-group col-md-6 col-sm-12">
-            <label for="Firstname">First Name:</label>
-            <input type="text" class="form-control" name="Firstname" placeholder="Enter first name">
+            <label for="firstName">First Name:</label>
+            <input type="text" class="form-control" name="firstname" placeholder="Enter first name">
           </div>
           <div class="form-group col-md-6 col-sm-12">
-            <label for="Lastname">Last Name:</label>
-            <input type="text" class="form-control" name="Lastname" placeholder="Enter last name">
+            <label for="lastName">Last Name:</label>
+            <input type="text" class="form-control" name="lastname" placeholder="Enter last name">
           </div>
         </div>
         <div class="form-row">
@@ -90,18 +91,18 @@ if (isset($_POST['multisave'])) {
             <label for="sex">Sex:</label>
             <select class="form-control" name="sex">
               <option selected>Select Sex</option>
-              <option value = "Male" <?php if ($data ['sex'] === 'Male') echo 'selected'; ?>>Male</option>
-              <option value = "Female" <?php if ($data ['sex'] === 'Female') echo 'selected'; ?>>Female</option>
+              <option>Male</option>
+              <option>Female</option>
             </select>
           </div>
         </div>
         <div class="form-group">
           <label for="username">Username:</label>
-          <input type="text" class="form-control" name="username" placeholder="Enter username">
+          <input type="text" class="form-control" name="Username" placeholder="Enter username">
         </div>
         <div class="form-group">
           <label for="password">Password:</label>
-          <input type="password" class="form-control" name="password" placeholder="Enter password">
+          <input type="password" class="form-control" name="Pass_word" placeholder="Enter password">
         </div>
         <div class="form-group">
           <label for="password">Confirm Password:</label>
@@ -109,7 +110,7 @@ if (isset($_POST['multisave'])) {
         </div>
       </div>
     </div>
-    
+ 
     <!-- Address Information -->
     <div class="card mt-4">
       <div class="card-header bg-info text-white">Address Information</div>
@@ -134,25 +135,24 @@ if (isset($_POST['multisave'])) {
         </div>
       </div>
     </div>
-    
+   
     <!-- Submit Button -->
-    
+   
     <div class="container">
     <div class="row justify-content-center gx-0">
-        <div class="col-lg-3 col-md-4"> 
-        <input type="submit" name="update" value="<?php echo $rows ['User_id'];?>">
+        <div class="col-lg-3 col-md-4">
             <input type="submit" name="multisave" class="btn btn-outline-primary btn-block mt-4" value="Sign Up">
         </div>
-        <div class="col-lg-3 col-md-4"> 
+        <div class="col-lg-3 col-md-4">
             <a class="btn btn-outline-danger btn-block mt-4" href="login.php">Go Back</a>
         </div>
     </div>
 </div>
-
-
+ 
+ 
   </form>
 </div>
-
+ 
 <!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -162,3 +162,4 @@ if (isset($_POST['multisave'])) {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+ 

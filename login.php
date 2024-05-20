@@ -1,22 +1,31 @@
-<?php require_once('classes/database.php');
-$con= new database();?>
-
 <?php
-if(isset($_POST['login'])){
+require_once('classes/database.php');
+$con=new database();
+session_start();
+
+if(isset($_SESSION['username'])){
+  header('location:index.php');
+}
+
+if(isset($_POST['login'])) {
 $username=$_POST['username'];
 $password=$_POST['password'];
 $result=$con->check($username, $password);
 if ($result){
-    if ($result['username'] == $_POST['username'] && $result['password'] ==$_POST['password']){
+    if ($result['username'] == $_POST['username'] && $result['password'] == $_POST['password']){
         $_SESSION['username']=$result['username'];
         header('location:index.php');
-    }
-    else {echo "error";}
+    }else {
+      echo "error";
+ 
+  }
 }
 else {echo "error";}
 }  
 ?>
-
+ 
+ 
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,12 +46,13 @@ else {echo "error";}
   </style>
 </head>
 <body>
-
+ 
+ 
 <div class="container-fluid login-container rounded shadow">
   <h2 class="text-center mb-4">Login</h2>
-
-
-  <form method="post">
+ 
+ 
+<form method="post">
     <div class="form-group">
       <label for="username">Username:</label>
       <input type="text" class="form-control" name="username" placeholder="Enter username">
@@ -51,11 +61,18 @@ else {echo "error";}
       <label for="password">Password:</label>
       <input type="password" class="form-control" name="password" placeholder="Enter password">
     </div>
+ 
     <div class="container"><div class="row gx 1"><div class="col"><input type="submit" name="login" class="btn btn-warning btn-block" value="Login"></input></div>
     <div class="col"><a class="btn btn-danger btn-block" href=signup.php>Sign Up</a></div></div></div>
+ 
   </form>
 </div>
-
+ 
+ 
+ 
+ 
+ 
+ 
 <!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
